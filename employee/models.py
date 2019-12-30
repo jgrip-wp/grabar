@@ -54,3 +54,11 @@ class SystemUser(AbstractBaseUser, PermissionsMixin):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
+
+
+class Employee(SystemUser):
+    number = models.CharField(max_length=3)
+    name = models.CharField(max_length=256)
+    name_kana = models.CharField(max_length=256)
+
+    REQUIRED_FIELD = ['name', 'number']
