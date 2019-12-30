@@ -3,6 +3,16 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 
 
+DEPARTMENT_CHOICES = (
+    ('管理部', '管理部'),
+    ('Webリレーション部', 'Webリレーション部'),
+    ('事業推進室', '事業推進室'),
+    ('クリエイティブ部', 'クリエイティブ部'),
+    ('コンサルティング部', 'コンサルティング部'),
+    ('PR部', 'PR部'),
+)
+
+
 class SystemUserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -60,5 +70,6 @@ class Employee(SystemUser):
     number = models.CharField(max_length=3)
     name = models.CharField(max_length=256)
     name_kana = models.CharField(max_length=256)
+    department = models.CharField(max_length=128, choices=DEPARTMENT_CHOICES)
 
     REQUIRED_FIELD = ['name', 'number']
