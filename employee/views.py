@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.views import generic
+from .models import Employee
 
-# Create your views here.
+
+class EmployeeListView(generic.ListView):
+    template_name = 'employee/list.html'
+    model = Employee
