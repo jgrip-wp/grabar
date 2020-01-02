@@ -10,7 +10,7 @@ SECRET_KEY = '2d)w8gzzbofipmj!)g8=g^aq7vv4iyq1a8)t2$t7+xuxb(%$ga'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Database
