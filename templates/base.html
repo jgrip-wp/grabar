@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="/static/css/common.css">
     {% block head %}{% endblock %}
   </head>
-  <body>
+  <body class="page-wrapper">
+    {% block bodystart %}{% endblock %}
 
     <div class="header-wrapper content-width">
       <h1 class="page-title">{% block pagetitle %}Grabar{% endblock %}</h1>
@@ -31,15 +32,28 @@
     <nav class="sidemenu">
       <h2 class="company-name">J-Grip</h2>
       <ul class="menu-list">
-        <li class="menu-item customer">顧客情報</li>
-        <li class="menu-item partner">外注情報<li>
-        <li class="menu-item employee"><a href="{% url 'grabar_employee:list' %}">社員</a></li>
+        <li class="menu-item menu-customer">顧客情報</li>
+        <li class="menu-item menu-partner">外注情報</li>
+        <li class="menu-item menu-employee" data-active-url="/employee"><a href="{% url 'grabar_employee:list' %}">社員</a></li>
       </ul>
     </nav>
+    <script>
+    (function() {
+      for (let e of document.querySelectorAll('.sidemenu .menu-item')) {
+        if (e.dataset.activeUrl) {
+          if (location.pathname.startsWith(e.dataset.activeUrl)) {
+            e.classList.add('active');
+          }
+        }
+      }
+    })();
+    </script>
     {% endblock %}
 
-    <div class="content-width">
-      {% block body %}{% endblock %}
+    <div class="main-content content-width">
+      {% block maincontent %}{% endblock %}
     </div>
+
+    {% block bodyend %}{% endblock %}
   </body>
 </html>

@@ -1,6 +1,15 @@
-body {
-    padding: 20px;
+.main-content {
     background: #f7f8fb;
+    padding: 20px 30px;
+}
+.searchbox {
+    margin: 10px 0 50px;
+}
+.searchbox .search-button {
+    margin-left: 5px;
+    cursor: pointer;
+    user-select: none;
+    border: none;
 }
 .department {
     color: #c0ebe1;
@@ -13,20 +22,26 @@ body {
 }
 
 .employee-list {
-    margin: 20px -10px 40px;
+    margin: 20px -5px 40px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .employee-wrapper {
     margin: 10px;
     padding: 10px;
     box-sizing: border-box;
-    width: calc(100% / 3 - 20px);
+    flex: 1 0 auto;
+    min-width: 380px;
     border-radius: 5px;
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
     list-style: none;
+}
+
+@media screen and (max-width: 600px) {
+    .employee-wrapper {
+    }
 }
 
 .employee {
@@ -55,7 +70,7 @@ body {
 }
 
 .employee .number {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     color: #666666;
     margin-top: 15px;
@@ -66,11 +81,11 @@ body {
     font-weight: normal;
     color: #666666;
     letter-spacing: 2px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .employee .name_kana {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     color: #666666;
     letter-spacing: 1px;
@@ -81,19 +96,18 @@ body {
     font-size: 14px;
     font-weight: normal;
     color: #666666;
-    margin-top: 10px;
+    margin-top: 13px;
 }
 
 .employee .edit-button {
     display: block;
     justify-self: flex-end;
     color: #c0ebe1;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 5px 20px;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 6px 20px;
     text-decoration: none;
     border: 1px solid #c0ebe1;
-    text-align: right;
 }
 
 .add-more-wrapper {

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.views import generic
 from django.http.response import JsonResponse
@@ -9,9 +10,17 @@ class EmployeeListView(generic.ListView):
     template_name = 'employee/list.html'
     model = Employee
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        kwargs['departments'] = list(map(lambda x: x[0], DEPARTMENT_CHOICES))
-        return super().get_context_data(object_list=object_list, **kwargs)
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        return self.model.objects.filter(
+            Q(name__icontains=q) | Q(name_kana__icontains=q) | Q(email__icontains=q)
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['departments'] = list(map(lambda x: x[0], DEPARTMENT_CHOICES))
+        context['q'] = self.request.GET.get('q', '')
+        return context
 
 
 class EmployeeMofifyView:

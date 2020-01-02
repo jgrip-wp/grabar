@@ -6,7 +6,17 @@
 <link rel="stylesheet" href="{% static 'employee/employee.css' %}">
 {% endblock %}
 
-{% block body %}
+{% block bodyend %}
+<script src="{% static 'employee/employee.js' %}"></script>
+{% endblock %}
+
+{% block maincontent %}
+  <div class="searchbox">
+    <form id="search-form" method="GET" action="{% url 'grabar_employee:list' %}">
+      <input class="m-inputbox" type="text" name="q" placeholder="名前で検索" value="{{ q }}">
+      <button type="submit" class="m-round-button dark-blue-button search-button">検索</button>
+    </form>
+  </div>
   {% for dept in departments %}
     <h2 class="department">{{ dept }}</h2>
     <ul class="employee-list">
