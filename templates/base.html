@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}grabar{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/reset.css">
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+
+    <div class="header-wrapper content-width">
+      <h1 class="page-title">{% block pagetitle %}Grabar{% endblock %}</h1>
+      {% block headermenu %}
+        {% if user.is_authenticated %}
+          <div class="user-menu-wrapper">
+            <a class="toggle-button">{{ user }}</a>
+            <ul class="user-menu toggle-target">
+              <li class="user-menu-item"><a href="#">ユーザー情報</a></li>
+              <li class="user-menu-item"><a href="#">サインアウト</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <div class="signin-link-wrapper">
+            <a class="signin-link" href="#">サインイン</a>
+          </div>
+        {% endif %}
+      {% endblock %}
+    </div>
+
+    {% block sidemenu %}
+    <nav class="sidemenu">
+      <h2 class="company-name">J-Grip</h2>
+      <ul class="menu-list">
+        <li class="menu-item customer">顧客情報</li>
+        <li class="menu-item partner">外注情報<li>
+        <li class="menu-item employee"><a href="{% url 'grabar_employee:list' %}">社員</a></li>
+      </ul>
+    </nav>
+    {% endblock %}
+
+    <div class="content-width">
+      {% block body %}{% endblock %}
+    </div>
+  </body>
+</html>

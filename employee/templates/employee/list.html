@@ -1,5 +1,48 @@
-<ul>
-  {% for employee in employee_list %}
-    <li>{{ employee.name }}</li>
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'employee/employee.css' %}">
+{% endblock %}
+
+{% block body %}
+  {% for dept in departments %}
+    <h2 class="department">{{ dept }}</h2>
+    <ul class="employee-list">
+      {% for employee in employee_list %}
+        {% if employee.department == dept %}
+          <li class="employee-wrapper">
+            <article class="employee">
+              <header>
+                {% if employee.thumbnail %}
+                  <img class="thumbnail" src="{{ employee.thumbnail.url }}" alt="{{ employee.name }}">
+                {% else %}
+                  <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
+                {% endif %}
+              </header>
+              <main>
+                <p class="number">ID {{ employee.number }}</p>
+                <p class="name">{{ employee.name }}</p>
+                <p class="name_kana">{{ employee.name_kana }}</p>
+                <p class="email">{{ employee.email }}</p>
+              </main>
+              <footer>
+                <a class="edit-button" href="#">編集</a>
+              </footer>
+            </article>
+          </li>
+        {% endif %}
+      {% endfor %}
+      <li class="add-more-wrapper">
+        <form class="add-more" method="POST" action="">
+          <input type="hidden" name="department" value="{{ dept }}">
+          <input type="text" name="number" required maxlength="3">
+          <input type="text" name="name" required>
+          <input type="text" name="name_kana">
+          <input type="email" name="email" required>
+        </form>
+      </li>
+    </ul>
   {% endfor %}
-</ul>
+{% endblock %}

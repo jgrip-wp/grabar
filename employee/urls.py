@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path
 from .views import *
 
+app_name = 'grabar_employee'
 urlpatterns = [
-    path('', EmployeeListView.as_view()),
+    path('', EmployeeListView.as_view(), name='list'),
 ]
