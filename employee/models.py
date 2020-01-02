@@ -71,5 +71,6 @@ class Employee(SystemUser):
     name = models.CharField(max_length=256)
     name_kana = models.CharField(max_length=256)
     department = models.CharField(max_length=128, choices=DEPARTMENT_CHOICES)
+    thumbnail = models.ImageField(upload_to='thumbnail/', blank=True, null=True)
 
     REQUIRED_FIELD = ['name', 'number']
