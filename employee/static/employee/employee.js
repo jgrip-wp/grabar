@@ -12,3 +12,17 @@ function get_component_values(selector) {
     }
     return values;
 }
+
+function show_image(element, file) {
+    const reader = new FileReader();
+    reader.onload = () => { element.src = reader.result; }
+    reader.readAsDataURL(file);
+}
+
+function add_class(element, cls) {
+    element.classList.add(cls);
+}
+
+function remove_class(element, cls) {
+    element.classList.remove(cls);
+}

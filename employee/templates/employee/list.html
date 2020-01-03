@@ -18,7 +18,11 @@
     </form>
   </div>
   {% for dept in departments %}
-    <h2 class="department">{{ dept }}</h2>
+    <div class="employee-group"><h2>{{ dept }}</h2><a class="add-link" onclick="(function(self) {
+      const list_items = self.parentNode.nextElementSibling.children;
+      form_wrapper = list_items[list_items.length - 1];
+      form_wrapper.style.display = 'grid';
+    })(this)">+</a></div>
     <ul class="employee-list">
       {% for employee in employee_list %}
         {% if employee.department == dept %}
@@ -44,15 +48,60 @@
           </li>
         {% endif %}
       {% endfor %}
-      <li class="add-more-wrapper">
+      <li class="add-more-wrapper" ondragenter="add_class(this, 'accept-drop')">
+        <div class="dropzone" ondragleave="remove_class(this.parentNode, 'accept-drop')"></div>
+        <div class="thumnail-wrapper">
+          <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
+        </div>
         <form class="add-more" method="POST" action="">
-          <input type="hidden" name="department" value="{{ dept }}">
-          <input type="text" name="number" required maxlength="3">
-          <input type="text" name="name" required>
-          <input type="text" name="name_kana">
-          <input type="email" name="email" required>
+          <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
+          <input type="file"                      name="thumbnail" onchange="(function(self) {
+              const f = self.files[0];
+              const e = self.parentNode.previousElementSibling.children[0];
+              if (f == null || !f.type.match('image.*')) {
+                  e.src = 'http://placehold.jp/100x100.png?text=sample';
+                  self.value = null;
+              } else {
+                  show_image(e, f);
+              }
+          })(this)">
+
+          <label for="">ID</label>             <input type="text"   class="m-inputbox" name="number"    required maxlength="3">
+          <label for="">名前</label>           <input type="text"   class="m-inputbox" name="name"      required>
+          <label for="">ふりがな</label>       <input type="text"   class="m-inputbox" name="name_kana">
+          <label for="">メールアドレス</label> <input type="email"  class="m-inputbox" name="email"     required>
+          <button type="reset"  class="m-round-button orange-button" onclick="(function(self) { self.parentNode.parentNode.style.display='none'; })(this)">キャンセル</button><!-- 不要な空白を画面に表示させない！
+       --><button type="submit" class="m-round-button green-button">保存</button>
         </form>
       </li>
     </ul>
   {% endfor %}
+  <script>
+  (function() {
+    for (let wrapper of document.querySelectorAll('.add-more-wrapper')) {
+      const dropzone = document.querySelector('.dropzone');
+      const file_input = wrapper.querySelector('input[name="thumbnail"]');
+      const thumbnail_element = wrapper.querySelector('.thumbnail');
+      dropzone.addEventListener('dragover', (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'copy';
+        return false;
+      });
+      dropzone.addEventListener('drop', (evt) => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        remove_class(wrapper, 'accept-drop');
+        const f = evt.dataTransfer.files[0]
+        if (f == null || !f.type.match('image.*')) {
+            thumbnail_element.src = 'http://placehold.jp/100x100.png?text=sample';
+            file_input.value = null;
+        } else {
+            show_image(thumbnail_element, f);
+            file_input.files = evt.dataTransfer.files;
+        }
+      });
+    }
+  })();
+  </script>
 {% endblock %}

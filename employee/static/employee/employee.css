@@ -9,9 +9,8 @@
     margin-left: 5px;
     cursor: pointer;
     user-select: none;
-    border: none;
 }
-.department {
+.employee-group {
     color: #c0ebe1;
     font-size: 14px;
     font-weight: bold;
@@ -19,6 +18,22 @@
     border-bottom: 1px solid #c0ebe1;
     width: 100%;
     margin: 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.employee-group .add-link {
+    color: #fff;
+    background: #00d29a;
+    border-radius: 50%;
+    padding: 7px 4px 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
 }
 
 .employee-list {
@@ -28,7 +43,8 @@
     justify-content: flex-start;
 }
 
-.employee-wrapper {
+.employee-list .employee-wrapper,
+.employee-list .add-more-wrapper {
     margin: 10px;
     padding: 10px;
     box-sizing: border-box;
@@ -39,44 +55,42 @@
     list-style: none;
 }
 
-@media screen and (max-width: 600px) {
-    .employee-wrapper {
-    }
-}
-
-.employee {
+.employee-list .employee {
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-template-rows: 1fr;
     width: 100%;
 }
 
-.employee header {
+.employee-list .employee header {
     grid-column: 1;
 }
-.employee main {
+
+.employee-list .employee main {
     grid-column: 2;
 }
 
-.employee footer {
+.employee-list .employee footer {
     grid-column: 3;
 }
 
-.employee .thumbnail {
+.employee-list .employee .thumbnail,
+.employee-list .add-more-wrapper .thumbnail {
     width: 90px;
     height: 90px;
     border-radius: 50%;
     margin: 15px 25px 15px 15px;
+    object-fit: cover;
 }
 
-.employee .number {
+.employee-list .employee .number {
     font-size: 14px;
     font-weight: normal;
     color: #666666;
     margin-top: 15px;
 }
 
-.employee .name {
+.employee-list .employee .name {
     font-size: 20px;
     font-weight: normal;
     color: #666666;
@@ -84,7 +98,7 @@
     margin-top: 15px;
 }
 
-.employee .name_kana {
+.employee-list .employee .name_kana {
     font-size: 14px;
     font-weight: normal;
     color: #666666;
@@ -92,14 +106,14 @@
     margin-top: 2px;
 }
 
-.employee .email {
+.employee-list .employee .email {
     font-size: 14px;
     font-weight: normal;
     color: #666666;
     margin-top: 13px;
 }
 
-.employee .edit-button {
+.employee-list .employee .edit-button {
     display: block;
     justify-self: flex-end;
     color: #c0ebe1;
@@ -110,9 +124,65 @@
     border: 1px solid #c0ebe1;
 }
 
-.add-more-wrapper {
+.employee-list .add-more-wrapper {
+    position: relative;
     list-style: none;
-}
-.add-more {
     display: none;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto 1fr;
+}
+
+.employee-list .add-more-wrapper .dropzone {
+    display: none;
+}
+
+.employee-list .add-more-wrapper.accept-drop .dropzone {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.employee-list .add-more {
+    width: 100%;
+}
+
+.employee-list .add-more label {
+    color: #333;
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.employee-list .add-more *[name="thumbnail"] {
+    display: none;
+}
+
+.employee-list .add-more *[name="number"],
+.employee-list .add-more *[name="name"],
+.employee-list .add-more *[name="name_kana"],
+.employee-list .add-more *[name="email"] {
+    display: block;
+    margin: 0 0 10px;
+    border: 2px solid #ffe1d5;
+    width: 280px;
+    box-sizing: border-box;
+}
+
+.employee-list .add-more *[name="email"] {
+    margin: 0 0 20px;
+}
+
+.employee-list .add-more button {
+    width: 130px;
+    height: 40px;
+}
+
+.employee-list .add-more button[type="reset"] {
+    margin-right: 20px;
 }

@@ -205,10 +205,21 @@ input, select {
     border-radius: 20px;
     box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    border: none;
 }
 
 .dark-blue-button {
     background-color: #323f54;
+    color: #fff;
+}
+
+.orange-button {
+    background-color: #ff8b5c;
+    color: #fff;
+}
+
+.green-button {
+    background-color: #00d29a;
     color: #fff;
 }
 
