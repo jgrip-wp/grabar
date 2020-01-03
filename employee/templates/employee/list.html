@@ -59,10 +59,10 @@
               const f = self.files[0];
               const e = self.parentNode.previousElementSibling.children[0];
               if (f == null || !f.type.match('image.*')) {
-                  e.src = 'http://placehold.jp/100x100.png?text=sample';
-                  self.value = null;
+                e.src = 'http://placehold.jp/100x100.png?text=sample';
+                self.value = null;
               } else {
-                  show_image(e, f);
+                show_image(e, f);
               }
           })(this)">
 
@@ -94,11 +94,11 @@
         remove_class(wrapper, 'accept-drop');
         const f = evt.dataTransfer.files[0]
         if (f == null || !f.type.match('image.*')) {
-            thumbnail_element.src = 'http://placehold.jp/100x100.png?text=sample';
-            file_input.value = null;
+          thumbnail_element.src = 'http://placehold.jp/100x100.png?text=sample';
+          file_input.value = null;
         } else {
-            show_image(thumbnail_element, f);
-            file_input.files = evt.dataTransfer.files;
+          show_image(thumbnail_element, f);
+          file_input.files = evt.dataTransfer.files;
         }
       });
     }
