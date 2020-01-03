@@ -19,4 +19,5 @@ from .views import *
 app_name = 'grabar_employee'
 urlpatterns = [
     path('', EmployeeListView.as_view(), name='list'),
+    path('create/', EmployeeCreateView.as_view(), name='create'),
 ]

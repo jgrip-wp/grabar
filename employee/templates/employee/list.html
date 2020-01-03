@@ -53,7 +53,7 @@
         <div class="thumnail-wrapper">
           <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
         </div>
-        <form class="add-more" method="POST" action="">
+        <form class="add-more" method="POST" action="{% url 'grabar_employee:create' %}">
           <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
           <input type="file"                      name="thumbnail" onchange="(function(self) {
               const f = self.files[0];
