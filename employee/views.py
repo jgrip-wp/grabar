@@ -1,8 +1,9 @@
 from django.db.models import Q
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse, HttpResponseBadRequest
 from .models import Employee, DEPARTMENT_CHOICES
 from .forms import EmployeeForm
 
@@ -22,11 +23,13 @@ class EmployeeListView(generic.ListView):
         return context
 
 
-class EmployeeCreateView(generic.CreateView):
-    model = Employee
-    form_class = EmployeeForm
-    template_name = 'employee/list.html'
-    success_url = reverse_lazy('grabar_employee:list')
+@require_POST
+def create_employee(request):
+    form = EmployeeForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        return HttpResponse()
+    return HttpResponseBadRequest(reason='malformed request')
 
 
 class EmployeeMofifyView:

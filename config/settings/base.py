@@ -104,5 +104,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'dist', 'static')
 
 # This settings is enabled only if DEBUG=True.
 # In production environment, web server should be treat this.
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

@@ -53,7 +53,8 @@
         <div class="thumnail-wrapper">
           <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
         </div>
-        <form class="add-more" method="POST" action="{% url 'grabar_employee:create' %}">
+        <form class="add-more" method="POST" action="{% url 'grabar_employee:create' %}" enctype="multipart/form-data">
+          {% csrf_token %}
           <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
           <input type="file"                      name="thumbnail" onchange="(function(self) {
               const f = self.files[0];
@@ -79,6 +80,7 @@
   <script>
   (function() {
     for (let wrapper of document.querySelectorAll('.add-more-wrapper')) {
+      // set event listener on dropzone
       const dropzone = document.querySelector('.dropzone');
       const file_input = wrapper.querySelector('input[name="thumbnail"]');
       const thumbnail_element = wrapper.querySelector('.thumbnail');
@@ -100,6 +102,25 @@
           show_image(thumbnail_element, f);
           file_input.files = evt.dataTransfer.files;
         }
+      });
+
+      // set event listener on form
+      const add_more = wrapper.querySelector('.add-more');
+      add_more.addEventListener('submit', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        for (let btn of add_more.querySelectorAll('button')) btn.setAttribute('disabled', true);
+        const params = new FormData(add_more);
+        fetch(add_more.getAttribute('action'), {
+          method: add_more.getAttribute('method'),
+          body: params,
+        })
+        .then(res => {
+          if (res.ok) location.reload();
+        })
+        .finally(() => {
+          for (let btn of add_more.querySelectorAll('button')) btn.removeAttribute('disabled');
+        });
       });
     }
   })();
