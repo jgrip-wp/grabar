@@ -53,7 +53,24 @@
         <div class="thumnail-wrapper">
           <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
         </div>
-        <form class="add-more" method="POST" action="{% url 'grabar_employee:create' %}" enctype="multipart/form-data">
+        <form class="add-more" onsubmit="(function (frm, evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          const submit_btn = frm.querySelector('.submit-button');
+          submit_btn.textContent = '保存中';
+          submit_btn.disabled = true;
+          fetch('{% url 'grabar_employee:create' %}', {
+            method: 'POST',
+            body: new FormData(frm),
+          })
+          .then(res => {
+            if (res.ok) location.reload();
+          })
+          .finally(() => {
+            submit_btn.textContent = '保存';
+            submit_btn.disabled = false;
+          });
+        })(this, arguments[0])">
           {% csrf_token %}
           <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
           <input type="file"                      name="thumbnail" onchange="(function(self) {
@@ -72,7 +89,7 @@
           <label for="">ふりがな</label>       <input type="text"   class="m-inputbox" name="name_kana">
           <label for="">メールアドレス</label> <input type="email"  class="m-inputbox" name="email"     required>
           <button type="reset"  class="m-round-button orange-button" onclick="(function(self) { self.parentNode.parentNode.style.display='none'; })(this)">キャンセル</button><!-- 不要な空白を画面に表示させない！
-       --><button type="submit" class="m-round-button green-button">保存</button>
+       --><button type="submit" class="m-round-button green-button submit-button">保存</button>
         </form>
       </li>
     </ul>
@@ -102,25 +119,6 @@
           show_image(thumbnail_element, f);
           file_input.files = evt.dataTransfer.files;
         }
-      });
-
-      // set event listener on form
-      const add_more = wrapper.querySelector('.add-more');
-      add_more.addEventListener('submit', function (evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        for (let btn of add_more.querySelectorAll('button')) btn.setAttribute('disabled', true);
-        const params = new FormData(add_more);
-        fetch(add_more.getAttribute('action'), {
-          method: add_more.getAttribute('method'),
-          body: params,
-        })
-        .then(res => {
-          if (res.ok) location.reload();
-        })
-        .finally(() => {
-          for (let btn of add_more.querySelectorAll('button')) btn.removeAttribute('disabled');
-        });
       });
     }
   })();
