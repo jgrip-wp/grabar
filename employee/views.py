@@ -13,9 +13,7 @@ class EmployeeListView(generic.ListView):
 
     def get_queryset(self):
         q = self.request.GET.get('q', '')
-        return self.model.objects.filter(
-            Q(name__icontains=q) | Q(name_kana__icontains=q) | Q(email__icontains=q)
-        )
+        return Employee.query_by_text(q)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

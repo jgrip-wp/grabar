@@ -74,3 +74,11 @@ class Employee(SystemUser):
     thumbnail = models.ImageField(upload_to='thumbnail/', blank=True, null=True)
 
     REQUIRED_FIELD = ['name', 'number']
+
+    @classmethod
+    def query_by_text(cls, text):
+        return cls.objects.filter(
+            models.Q(name__icontains=text) |
+            models.Q(name_kana__icontains=text) |
+            models.Q(email__icontains=text)
+        )
