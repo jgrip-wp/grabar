@@ -35,7 +35,7 @@
                 {% if employee.thumbnail %}
                   <img class="thumbnail" src="{{ employee.thumbnail.url }}" alt="{{ employee.name }}">
                 {% else %}
-                  <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
+                  <img class="thumbnail" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
                 {% endif %}
               </header>
               <main>
@@ -54,7 +54,7 @@
       <li class="add-more-wrapper employee-edit-wrapper" ondragenter="add_class(this, 'accept-drop')">
         <div class="dropzone" ondragleave="remove_class(this.parentNode, 'accept-drop')"></div>
         <div class="thumnail-wrapper">
-          <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
+          <img class="thumbnail" data-initial="http://placehold.jp/100x100.png?text=sample" src="http://placehold.jp/100x100.png?text=sample">
         </div>
         <form class="add-more" onsubmit="(function (frm, evt) {
           evt.stopPropagation();
@@ -76,22 +76,13 @@
         })(this, arguments[0])">
           {% csrf_token %}
           <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
-          <input type="file"                      name="thumbnail" onchange="(function(self) {
-              const f = self.files[0];
-              const e = self.parentNode.previousElementSibling.children[0];
-              if (f == null || !f.type.match('image.*')) {
-                e.src = 'http://placehold.jp/100x100.png?text=sample';
-                self.value = null;
-              } else {
-                show_image(e, f);
-              }
-          })(this)">
+          <input type="file"                      name="thumbnail">
 
           <label for="">ID</label>             <input type="text"   class="m-inputbox" name="number"    required maxlength="3">
           <label for="">名前</label>           <input type="text"   class="m-inputbox" name="name"      required>
           <label for="">ふりがな</label>       <input type="text"   class="m-inputbox" name="name_kana">
           <label for="">メールアドレス</label> <input type="email"  class="m-inputbox" name="email"     required>
-          <button type="reset"  class="m-round-button orange-button" onclick="(function(self) { self.parentNode.parentNode.style.display='none'; })(this)">キャンセル</button><!-- 不要な空白を画面に表示させない！
+          <button type="reset"  class="m-round-button orange-button">キャンセル</button><!-- 不要な空白を画面に表示させない！
        --><button type="submit" class="m-round-button green-button submit-button">保存</button>
         </form>
       </li>
@@ -100,10 +91,15 @@
   <script>
   (function() {
     for (let wrapper of document.querySelectorAll('.employee-edit-wrapper')) {
-      // set event listener on dropzone
-      const dropzone = document.querySelector('.dropzone');
-      const file_input = wrapper.querySelector('input[name="thumbnail"]');
       const thumbnail_element = wrapper.querySelector('.thumbnail');
+      wrapper.querySelector('button[type="reset"]').addEventListener('click', function() {
+        wrapper.style.display = 'none';
+        thumbnail_element.src = thumbnail_element.dataset.initial;
+      });
+
+      // set event listener on dropzone
+      const dropzone = wrapper.querySelector('.dropzone');
+      const file_input = wrapper.querySelector('input[name="thumbnail"]');
       dropzone.addEventListener('dragover', (evt) => {
         evt.stopPropagation();
         evt.preventDefault();
@@ -116,7 +112,7 @@
         remove_class(wrapper, 'accept-drop');
         const f = evt.dataTransfer.files[0]
         if (f == null || !f.type.match('image.*')) {
-          thumbnail_element.src = 'http://placehold.jp/100x100.png?text=sample';
+          thumbnail_element.src = thumbnail_element.dataset.initial;
           file_input.value = null;
         } else {
           show_image(thumbnail_element, f);

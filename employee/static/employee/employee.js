@@ -26,3 +26,9 @@ function add_class(element, cls) {
 function remove_class(element, cls) {
     element.classList.remove(cls);
 }
+
+function find_parent_by_class(element, cls) {
+    let buf = element.parentNode;
+    while (!buf.classList.contains(cls)) buf = buf.parentNode;
+    return buf;
+}
