@@ -1,3 +1,5 @@
+media/*
+!media/.gitkeep
 .env
 *.sqlite3
 *.swp
