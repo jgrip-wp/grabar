@@ -51,7 +51,7 @@
           </li>
         {% endif %}
       {% endfor %}
-      <li class="add-more-wrapper" ondragenter="add_class(this, 'accept-drop')">
+      <li class="add-more-wrapper employee-edit-wrapper" ondragenter="add_class(this, 'accept-drop')">
         <div class="dropzone" ondragleave="remove_class(this.parentNode, 'accept-drop')"></div>
         <div class="thumnail-wrapper">
           <img class="thumbnail null" src="http://placehold.jp/100x100.png?text=sample">
@@ -99,7 +99,7 @@
   {% endfor %}
   <script>
   (function() {
-    for (let wrapper of document.querySelectorAll('.add-more-wrapper')) {
+    for (let wrapper of document.querySelectorAll('.employee-edit-wrapper')) {
       // set event listener on dropzone
       const dropzone = document.querySelector('.dropzone');
       const file_input = wrapper.querySelector('input[name="thumbnail"]');

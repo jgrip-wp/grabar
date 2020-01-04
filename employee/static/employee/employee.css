@@ -124,7 +124,7 @@
     border: 1px solid #c0ebe1;
 }
 
-.employee-list .add-more-wrapper {
+.employee-list .employee-edit-wrapper {
     position: relative;
     list-style: none;
     display: none;
@@ -132,11 +132,11 @@
     grid-template-columns: auto 1fr;
 }
 
-.employee-list .add-more-wrapper .dropzone {
+.employee-list .employee-edit-wrapper .dropzone {
     display: none;
 }
 
-.employee-list .add-more-wrapper.accept-drop .dropzone {
+.employee-list .employee-edit-wrapper.accept-drop .dropzone {
     display: block;
     position: absolute;
     top: 0;
