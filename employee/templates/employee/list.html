@@ -18,11 +18,14 @@
     </form>
   </div>
   {% for dept in departments %}
-    <div class="employee-group"><h2>{{ dept }}</h2><a class="add-link" onclick="(function(self) {
-      const list_items = self.parentNode.nextElementSibling.children;
-      form_wrapper = list_items[list_items.length - 1];
-      form_wrapper.style.display = 'grid';
-    })(this)">+</a></div>
+    <div class="employee-group">
+      <h2>{{ dept }}</h2>
+      <a class="add-link" onclick="(function(self) {
+        const list_items = self.parentNode.nextElementSibling.children;
+        form_wrapper = list_items[list_items.length - 1];
+        form_wrapper.style.display = 'grid';
+      })(this)">+</a>
+    </div>
     <ul class="employee-list">
       {% for employee in employee_list %}
         {% if employee.department == dept %}
