@@ -121,6 +121,7 @@
     padding: 6px 20px;
     text-decoration: none;
     border: 1px solid #c0ebe1;
+    cursor: pointer;
 }
 
 .employee-list .employee-edit-wrapper {
