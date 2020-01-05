@@ -14,9 +14,7 @@ function get_component_values(selector) {
 }
 
 function show_image(element, file) {
-    const reader = new FileReader();
-    reader.onload = () => { element.src = reader.result; }
-    reader.readAsDataURL(file);
+    element.src = URL.createObjectURL(file);
 }
 
 function add_class(element, cls) {
