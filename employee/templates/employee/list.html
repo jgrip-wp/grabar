@@ -10,6 +10,14 @@
 <script src="{% static 'employee/employee.js' %}"></script>
 {% endblock %}
 
+{% block title %}
+従業員一覧 - grabar
+{% endblock %}
+
+{% block pagetitle %}
+従業員一覧
+{% endblock %}
+
 {% block maincontent %}
   <div class="searchbox">
     <form id="search-form" method="GET" action="{% url 'grabar_employee:list' %}">
