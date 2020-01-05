@@ -33,7 +33,7 @@
       <h2 class="company-name">J-Grip</h2>
       <ul class="menu-list">
         <li class="menu-item menu-customer">顧客情報</li>
-        <li class="menu-item menu-partner">外注情報</li>
+        <li class="menu-item menu-partner" data-active-url="/partner"><a href="{% url 'grabar_partner:list' %}">外注情報</a></li>
         <li class="menu-item menu-employee" data-active-url="/employee"><a href="{% url 'grabar_employee:list' %}">社員</a></li>
       </ul>
     </nav>

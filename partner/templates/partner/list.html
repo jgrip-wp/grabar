@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'partner/partner.css' %}">
+{% endblock %}
+
+{% block bodyend %}
+<script src="{% static 'partner/partner.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+外注先一覧 - grabar
+{% endblock %}
+
+{% block pagetitle %}
+外注先一覧
+{% endblock %}
+
+{% block maincontent %}
+<ul>
+  {% for partner in partner_list %}
+    <li>{{ partner.name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
