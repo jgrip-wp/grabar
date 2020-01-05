@@ -20,4 +20,5 @@ app_name = 'grabar_employee'
 urlpatterns = [
     path('', EmployeeListView.as_view(), name='list'),
     path('create/', create_employee, name='create'),
+    path('update/<int:id>/', update_employee, name='update'),
 ]

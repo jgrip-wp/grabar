@@ -32,9 +32,11 @@ def create_employee(request):
     return HttpResponseBadRequest(reason='malformed request')
 
 
-class EmployeeMofifyView:
-    def post(self, request):
-        form = EmployeeForm(request.POST)
-        if form.is_valid():
-            pass
-        return JsonResponse()
+@require_POST
+def update_employee(request, id):
+    instance = Employee.objects.get(pk=id)
+    form = EmployeeForm(data=request.POST, files=request.FILES, instance=instance)
+    if form.is_valid():
+        form.save()
+        return HttpResponse()
+    return HttpResponseBadRequest(reason='malformed request')

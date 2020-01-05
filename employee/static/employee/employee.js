@@ -32,3 +32,27 @@ function find_parent_by_class(element, cls) {
     while (!buf.classList.contains(cls)) buf = buf.parentNode;
     return buf;
 }
+
+function post_employee_data(form, event, url) {
+    // stop defalt submit process
+    event.stopPropagation();
+    event.preventDefault();
+
+    // show processing text
+    const submit_btn = form.querySelector('.submit-button');
+    const submit_btn_textcontent = submit_btn.textContent;
+    submit_btn.textContent = '保存中';
+    submit_btn.disabled = true;
+
+    fetch(url, {
+      method: 'POST',
+      body: new FormData(form),
+    })
+    .then(res => {
+      if (res.ok) location.reload();
+    })
+    .finally(() => {
+      submit_btn.textContent = submit_btn_textcontent;
+      submit_btn.disabled = false;
+    });
+}

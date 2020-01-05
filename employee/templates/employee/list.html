@@ -20,22 +20,19 @@
   {% for dept in departments %}
     <div class="employee-group">
       <h2>{{ dept }}</h2>
-      <a class="add-link" onclick="(function(self) {
-        const list_items = self.parentNode.nextElementSibling.children;
-        form_wrapper = list_items[list_items.length - 1];
-        form_wrapper.style.display = 'grid';
-      })(this)">+</a>
+      <a class="add-link">+</a>
     </div>
     <ul class="employee-list">
       {% for employee in employee_list %}
         {% if employee.department == dept %}
           <li class="employee-wrapper">
+            <!-- 表示用領域 -->
             <article class="employee">
               <header>
                 {% if employee.thumbnail %}
-                  <img class="thumbnail" src="{{ employee.thumbnail.url }}" alt="{{ employee.name }}">
+                  <img class="thumbnail" data-initial="{{ employee.thumbnail.url }}" src="{{ employee.thumbnail.url }}" alt="{{ employee.name }}">
                 {% else %}
-                  <img class="thumbnail" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
+                  <img class="thumbnail" data-initial="http://placehold.jp/100x100.png?text=sample" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
                 {% endif %}
               </header>
               <main>
@@ -45,35 +42,42 @@
                 <p class="email">{{ employee.email }}</p>
               </main>
               <footer>
-                <a class="edit-button" href="#">編集</a>
+                <a class="edit-button">編集</a>
               </footer>
             </article>
+
+            <!-- 編集用領域 -->
+            <div class="employee-edit-wrapper">
+              <div class="dropzone"></div>
+              <div class="thumnail-wrapper">
+                {% if employee.thumbnail %}
+                  <img class="thumbnail" data-initial="{{ employee.thumbnail.url }}" src="{{ employee.thumbnail.url }}" alt="{{ employee.name }}">
+                {% else %}
+                  <img class="thumbnail" data-initial="http://placehold.jp/100x100.png?text=sample" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
+                {% endif %}
+              </div>
+              <form class="employee-edit" onsubmit=" onsubmit="post_employee_data(this, arguments[0], {% url 'grabar_employee:update' id=employee.id %}">
+                {% csrf_token %}
+                <input type="hidden"                    name="department"         value="{{ dept }}">
+                <input type="file"                      name="thumbnail">
+
+                <label for="">ID</label>             <input type="text"   class="m-inputbox" name="number"    value="{{ employee.number }}"    required maxlength="3">
+                <label for="">名前</label>           <input type="text"   class="m-inputbox" name="name"      value="{{ employee.name }}"      required>
+                <label for="">ふりがな</label>       <input type="text"   class="m-inputbox" name="name_kana" value="{{ employee.name_kana }}">
+                <label for="">メールアドレス</label> <input type="email"  class="m-inputbox" name="email"     value="{{ employee.email }}"     required>
+                <button type="reset"  class="m-round-button orange-button">キャンセル</button><!-- 不要な空白を画面に表示させない！
+             --><button type="submit" class="m-round-button green-button submit-button">保存</button>
+              </form>
+            </div>
           </li>
         {% endif %}
       {% endfor %}
-      <li class="add-more-wrapper employee-edit-wrapper" ondragenter="add_class(this, 'accept-drop')">
-        <div class="dropzone" ondragleave="remove_class(this.parentNode, 'accept-drop')"></div>
+      <li class="add-more-wrapper employee-edit-wrapper">
+        <div class="dropzone"></div>
         <div class="thumnail-wrapper">
           <img class="thumbnail" data-initial="http://placehold.jp/100x100.png?text=sample" src="http://placehold.jp/100x100.png?text=sample">
         </div>
-        <form class="add-more" onsubmit="(function (frm, evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          const submit_btn = frm.querySelector('.submit-button');
-          submit_btn.textContent = '保存中';
-          submit_btn.disabled = true;
-          fetch('{% url 'grabar_employee:create' %}', {
-            method: 'POST',
-            body: new FormData(frm),
-          })
-          .then(res => {
-            if (res.ok) location.reload();
-          })
-          .finally(() => {
-            submit_btn.textContent = '保存';
-            submit_btn.disabled = false;
-          });
-        })(this, arguments[0])">
+        <form class="add-more" onsubmit="post_employee_data(this, arguments[0], '{% url 'grabar_employee:create' %}')">
           {% csrf_token %}
           <input type="hidden" class="m-inputbox" name="department"         value="{{ dept }}">
           <input type="file"                      name="thumbnail">
@@ -90,6 +94,31 @@
   {% endfor %}
   <script>
   (function() {
+    for (let group of document.querySelectorAll('.employee-group')) {
+      const btn = group.querySelector('.add-link')
+      btn.addEventListener('click', () => {
+        // いい感じの見た目にしたいところ
+        const tgt = group.nextElementSibling.lastElementChild;
+        if (tgt.style.display === 'grid') {
+          tgt.style.display = 'none';
+          btn.textContent = '+';
+        } else {
+          tgt.style.display = 'grid';
+          btn.textContent = '-';
+        }
+      });
+    }
+    for (let wrapper of document.querySelectorAll('.employee-wrapper')) {
+      const employee = wrapper.querySelector('.employee');
+      const editor = wrapper.querySelector('.employee-edit-wrapper');
+      employee.querySelector('.edit-button').addEventListener('click', () => {
+        employee.style.display = 'none';
+        editor.style.display = 'grid';
+      });
+      editor.querySelector('*[type="reset"]').addEventListener('click', () => {
+        employee.style.display = 'grid';
+      });
+    }
     for (let wrapper of document.querySelectorAll('.employee-edit-wrapper')) {
       const thumbnail_element = wrapper.querySelector('.thumbnail');
       wrapper.querySelector('button[type="reset"]').addEventListener('click', function() {
@@ -97,9 +126,16 @@
         thumbnail_element.src = thumbnail_element.dataset.initial;
       });
 
+      wrapper.addEventListener('dragenter', function() {
+        add_class(wrapper, 'accept-drop');
+      });
+
       // set event listener on dropzone
       const dropzone = wrapper.querySelector('.dropzone');
       const file_input = wrapper.querySelector('input[name="thumbnail"]');
+      dropzone.addEventListener('dragleave', () => {
+        remove_class(wrapper, 'accept-drop');
+      });
       dropzone.addEventListener('dragover', (evt) => {
         evt.stopPropagation();
         evt.preventDefault();

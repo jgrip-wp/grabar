@@ -74,8 +74,7 @@
     grid-column: 3;
 }
 
-.employee-list .employee .thumbnail,
-.employee-list .add-more-wrapper .thumbnail {
+.employee-list .thumbnail {
     width: 90px;
     height: 90px;
     border-radius: 50%;
@@ -148,25 +147,25 @@
     color: #fff;
 }
 
-.employee-list .add-more {
+.employee-list form {
     width: 100%;
 }
 
-.employee-list .add-more label {
+.employee-list form label {
     color: #333;
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 1px;
 }
 
-.employee-list .add-more *[name="thumbnail"] {
+.employee-list form *[name="thumbnail"] {
     display: none;
 }
 
-.employee-list .add-more *[name="number"],
-.employee-list .add-more *[name="name"],
-.employee-list .add-more *[name="name_kana"],
-.employee-list .add-more *[name="email"] {
+.employee-list form *[name="number"],
+.employee-list form *[name="name"],
+.employee-list form *[name="name_kana"],
+.employee-list form *[name="email"] {
     display: block;
     margin: 0 0 10px;
     border: 2px solid #ffe1d5;
@@ -174,15 +173,15 @@
     box-sizing: border-box;
 }
 
-.employee-list .add-more *[name="email"] {
+.employee-list form *[name="email"] {
     margin: 0 0 20px;
 }
 
-.employee-list .add-more button {
+.employee-list form button {
     width: 130px;
     height: 40px;
 }
 
-.employee-list .add-more button[type="reset"] {
+.employee-list form button[type="reset"] {
     margin-right: 20px;
 }
