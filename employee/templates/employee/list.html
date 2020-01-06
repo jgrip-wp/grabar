@@ -64,7 +64,7 @@
                   <img class="thumbnail" data-initial="http://placehold.jp/100x100.png?text=sample" src="http://placehold.jp/100x100.png?text=sample" alt="default image">
                 {% endif %}
               </div>
-              <form class="employee-edit" onsubmit=" onsubmit="post_employee_data(this, arguments[0], {% url 'grabar_employee:update' id=employee.id %}">
+              <form class="employee-edit" onsubmit="post_employee_data(this, arguments[0], '{% url 'grabar_employee:update' id=employee.id %}')">
                 {% csrf_token %}
                 <input type="hidden"                    name="department"         value="{{ dept }}">
                 <input type="file"                      name="thumbnail">
